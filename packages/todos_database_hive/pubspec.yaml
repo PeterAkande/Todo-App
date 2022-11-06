@@ -1,0 +1,22 @@
+name: todos_database_hive
+description: Dart package which manages how the todos are stored in the hive database.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.17.5 <3.0.0"
+
+dependencies:
+  todo_repository:
+    path: ../todo_repository
+  equatable: ^2.0.3
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  plugin_platform_interface: ^2.1.3
+  hive_generator: ^1.1.1
+  build_runner: ^2.1.7
