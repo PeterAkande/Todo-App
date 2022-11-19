@@ -20,16 +20,20 @@ class Todo extends TodoModel {
   String additionalContents;
   @HiveField(4)
   DateTime dateCreated;
+  @HiveField(5)
+  String id; //This would be the id of the todo_. Instead of using the title as a placeholder
 
   Todo({
     required this.title,
     required this.completed,
     required this.dateCompleted,
+    required this.id,
     required this.dateCreated,
     required this.additionalContents,
   }) : super(
             additionalContents: additionalContents,
             title: title,
+            id: id,
             dateCompleted: dateCompleted,
             dateCreated: dateCompleted,
             completed: completed);

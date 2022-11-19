@@ -2,11 +2,13 @@
 class TodoModel {
   TodoModel(
       {required this.title,
+      required this.id,
       required this.completed,
       required this.dateCompleted,
       required this.dateCreated,
       required this.additionalContents});
 
+  String id;
   String title;
   String additionalContents;
   DateTime dateCompleted;
