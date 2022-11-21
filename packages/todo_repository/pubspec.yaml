@@ -7,6 +7,9 @@ environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
+  todos_database_hive:
+    path: ../todos_database_hive
+
   equatable: ^2.0.3
   flutter:
     sdk: flutter
