@@ -83,11 +83,37 @@ class HiveDbOperations extends DatabaseOperations {
     return allTodos;
   }
 
-  Future<Map<String, dynamic>> updateTodo(String id,
-      {String? title,
-      DateTime? dateCompleted,
-      bool? completed,
-      String? additionalContents}) async {
+  // Future<Map<String, dynamic>> updateTodo(String id,
+  //     {String? title,
+  //     DateTime? dateCompleted,
+  //     bool? completed,
+  //     String? additionalContents}) async {
+  //   //This function updates a _todo in te database
+  //
+  //   TodoModel? todo = box.get(id);
+  //
+  //   if (todo == null) return {};
+  //
+  //   final allTodos = [...todosStream.value];
+  //
+  //   //Get the index of this current _todo
+  //   final int todoIndex =
+  //       allTodos.indexWhere((jsonSchema) => jsonSchema['id'] == id);
+  //
+  //   //Update the fields accordingly
+  //   todo.dateCompleted = dateCompleted ?? todo.dateCompleted;
+  //   todo.completed = completed ?? todo.completed;
+  //   todo.additionalContents = additionalContents ?? todo.additionalContents;
+  //   todo.title = title ?? todo.title;
+  //
+  //   await box.put(id, todo);
+  //
+  //   allTodos[todoIndex] = todo.toJson();
+  //   return todo.toJson();
+  // }
+
+  Future<Map<String, dynamic>> updateTodo(
+      String id, TodoModel updatedTodoModel) async {
     //This function updates a _todo in te database
 
     TodoModel? todo = box.get(id);
@@ -100,16 +126,10 @@ class HiveDbOperations extends DatabaseOperations {
     final int todoIndex =
         allTodos.indexWhere((jsonSchema) => jsonSchema['id'] == id);
 
-    //Update the fields accordingly
-    todo.dateCompleted = dateCompleted ?? todo.dateCompleted;
-    todo.completed = completed ?? todo.completed;
-    todo.additionalContents = additionalContents ?? todo.additionalContents;
-    todo.title = title ?? todo.title;
+    await box.put(id, updatedTodoModel);
 
-    await box.put(id, todo);
-
-    allTodos[todoIndex] = todo.toJson();
-    return todo.toJson();
+    allTodos[todoIndex] = updatedTodoModel.toJson();
+    return updatedTodoModel.toJson();
   }
 
   Future<bool> deleteTodo(String id) async {

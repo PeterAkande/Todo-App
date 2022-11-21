@@ -1,5 +1,4 @@
 //This would contain the todos config variables
-
 class TodoModel {
   TodoModel(
       {required this.title,
@@ -42,5 +41,19 @@ class TodoModel {
       'additionalContents': additionalContents,
       'dateCreated': dateCreated
     };
+  }
+
+  TodoModel copyWith(TodoModel todo,
+      {String? title,
+      bool? completed,
+      String? additionalContents,
+      DateTime? dateCompleted}) {
+    //Update the fields accordingly
+    todo.additionalContents = additionalContents ?? todo.additionalContents;
+    todo.completed = completed ?? todo.completed;
+    todo.title = title ?? todo.title;
+    todo.dateCompleted = dateCompleted ?? todo.dateCompleted;
+
+    return todo;
   }
 }
