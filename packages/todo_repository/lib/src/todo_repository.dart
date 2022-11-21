@@ -32,17 +32,26 @@ class TodoRepository {
     );
   }
 
-  Future<TodoModel?> updateTodo(String id,
-      {String? title,
-      DateTime? dateCompleted,
-      bool? completed,
-      String? additionalContents}) async {
-    Map<String, dynamic> updatedTodo = await databaseOperations.updateTodo(id,
-        title: title,
-        dateCompleted: dateCompleted,
-        completed: completed,
-        additionalContents: additionalContents);
+  Future<TodoModel?> updateTodo(String id, TodoModel updatedTodo) async {
+    Map<String, dynamic> updatedTodoSchema =
+        await databaseOperations.updateTodo(id, updatedTodo);
 
-    return updatedTodo.isEmpty ? null : TodoModel.fromJson(updatedTodo);
+    return updatedTodoSchema.isEmpty
+        ? null
+        : TodoModel.fromJson(updatedTodoSchema);
+  }
+
+  Future<bool> deleteTodo(String id) async {
+    final operationSuccessful = await databaseOperations.deleteTodo(id);
+
+    return operationSuccessful;
+  }
+
+  Future<Map<String, dynamic>> createTodo(
+      String title, String additionalContents) async {
+    Map<String, dynamic> todoSchema = await databaseOperations.createTodo(
+        title: title, additionalContents: additionalContents);
+
+    return todoSchema;
   }
 }
