@@ -1,0 +1,1 @@
+const String todoBoxName = 'todo_box_database';
