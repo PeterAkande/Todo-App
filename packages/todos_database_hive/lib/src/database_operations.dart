@@ -5,9 +5,8 @@ import 'package:todo_repository/todo_repository.dart';
 import 'package:todos_database_hive/src/db_config/constants.dart';
 import 'package:todos_database_hive/src/util_functions.dart';
 
-typedef ListOfTodos = List<Map<String, dynamic>>;
 
-class HiveDbOperations {
+class HiveDbOperations extends DatabaseOperations{
   //This class would handle the getting of the data from the hove database
 
   late Box<TodoModel> box;
