@@ -85,6 +85,9 @@ class TodoTheme {
 
   static ThemeData light() {
     return ThemeData(
+      buttonTheme: ButtonThemeData(
+        buttonColor: appPrimaryColorDark
+      ),
         dialogBackgroundColor: Colors.white,
         primaryColor: appPrimaryColorLight,
         brightness: Brightness.light,
