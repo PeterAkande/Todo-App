@@ -7,6 +7,7 @@ import 'package:todo_app/routers/cubit/todo_app_cubit.dart';
 import '../responsive_info.dart';
 import '../screens/todo_details_screen/todo_details_screen.dart';
 import '../screens/todo_list_home_screen/todo_list_home_screen.dart';
+import '../screens/todo_list_home_screen/todo_list_home_screen_desktop.dart';
 
 enum TodoPath { home }
 
@@ -77,9 +78,9 @@ class TodoAppDelegate extends RouterDelegate<TodoPath>
 
   List<Page<dynamic>> getMobilePagesConfig(TodoAppState state) {
     return [
-      const MaterialPage(child: HomeScreenView()),
+      MaterialPage(child: HomeScreenView()),
       if (state.selectedTodo != null && _responsiveInfoRepo.isMobile)
-        const MaterialPage(child: TodoDetailsScreen())
+        MaterialPage(child: TodoDetailsScreen())
     ];
   }
 

@@ -85,11 +85,10 @@ class TodoTheme {
 
   static ThemeData light() {
     return ThemeData(
-      buttonTheme: ButtonThemeData(
-        buttonColor: appPrimaryColorDark
-      ),
+        buttonTheme: const ButtonThemeData(buttonColor: appSecondaryColorLight),
         dialogBackgroundColor: Colors.white,
         primaryColor: appPrimaryColorLight,
+        backgroundColor: appPrimaryColorLight,
         brightness: Brightness.light,
         primaryColorLight: Colors.white,
         cardColor: Colors.white,
@@ -103,11 +102,11 @@ class TodoTheme {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
         ),
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: appPrimaryColorLight,
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          foregroundColor: Colors.white,
-          backgroundColor: Colors.black,
-        ),
+            foregroundColor: Colors.white,
+            backgroundColor: appSecondaryColorLight,
+            elevation: 0),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           selectedItemColor: Colors.red,
           // unselectedItemColor: Colors.white,
@@ -130,7 +129,7 @@ class TodoTheme {
           foregroundColor: Colors.white,
           backgroundColor: Colors.black,
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
           foregroundColor: Colors.white,
           backgroundColor: appPrimaryColorLight,
         ),

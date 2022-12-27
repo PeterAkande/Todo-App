@@ -16,9 +16,10 @@ class TodoListHomeScreenDesktop extends StatelessWidget {
         body: Row(
           children: [
             const LeftPanelView(),
-            const DeskTopViewsSeparator(),
+            // const DeskTopViewsSeparator(),
             Expanded(flex: 2, child: HomeScreenView()),
-            const Expanded(
+            const DeskTopViewsSeparator(),
+            Expanded(
               flex: 3,
               child: TodoDetailsScreen(),
             ),

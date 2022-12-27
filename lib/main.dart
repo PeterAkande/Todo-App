@@ -42,8 +42,12 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _appState),
-        BlocProvider(create: (context) => TodoDetailsBloc(_appState)),
-        BlocProvider(create: (context) => TodoBloc(_todoRepository))
+        BlocProvider(
+            create: (context) => TodoDetailsBloc(_appState)
+              ..add(TodoDetailsSubscriptionRequested())),
+        BlocProvider(
+            create: (context) =>
+                TodoBloc(_todoRepository)..add(TodoSubscriptionRequested()))
       ],
 
       //Using Navigation 2.0

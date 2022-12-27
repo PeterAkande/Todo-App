@@ -10,7 +10,7 @@ part 'todo_details_state.dart';
 class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
   final TodoAppCubit _appState;
 
-  TodoDetailsBloc(this._appState) : super(TodoDetailsInitial()) {
+  TodoDetailsBloc(this._appState) : super(TodoDetailsState()) {
     on<TodoDetailsSubscriptionRequested>(_onTodoDetailsSubscriptionRequested);
     on<TodoDetailsEvent>((event, emit) {});
     on<EditTodoDetailsRequested>(_onEditTodoDetailsRequested);
@@ -24,16 +24,20 @@ class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
         if (appState.selectedTodo != null) {
           //The selected _todo is not null. Therefore add a previous _todo is being edited
 
-          emit(EditingTodoDetailsState(appState.selectedTodo!));
+          emit(state.copyWith(
+              newTodo: () => appState.selectedTodo!, addNewTodo: () => false));
         } else {
           //A new _todo is to be created;
-          emit(AddingNewTodoDetailsState());
+          emit(state.copyWith(newTodo: () => null, addNewTodo: () => true));
         }
+      } else {
+        emit(state.copyWith(newTodo: () => null, addNewTodo: () => false));
       }
     });
   }
 
-  _onEditTodoDetailsRequested(EditTodoDetailsRequested event, Emitter emit) {
-    emit(EditingTodoDetailsState(event.todo));
+  _onEditTodoDetailsRequested(
+      EditTodoDetailsRequested event, Emitter<TodoDetailsState> emit) {
+    emit(state.copyWith(newTodo: () => event.todo));
   }
 }

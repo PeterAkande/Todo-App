@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:todo_app/responsive_info.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 part 'todo_event.dart';
-
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
@@ -20,7 +20,8 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
   _todoSubscriptionRequested(
       TodoSubscriptionRequested event, Emitter<TodoState> emit) async {
-    //Here, this bloc would subscribe to the todos stream
+    //Here, this bloc would subscribe to the todos stream.
+    //So that any new update to the list is reflected here
 
     emit(state.copyWith(currentStatus: () => TodoStatus.loading));
 
