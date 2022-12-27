@@ -15,7 +15,7 @@ class ResponsiveInfoRepo {
     //Return the device info
     //Tablet is not supported yet
 
-    if (_size!.width > 850) return DeviceScreenType.desktop;
+    if (_size!.width > 1024) return DeviceScreenType.desktop;
     return DeviceScreenType.mobile;
   }
 
