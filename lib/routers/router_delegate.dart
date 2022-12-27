@@ -31,9 +31,10 @@ class TodoAppDelegate extends RouterDelegate<TodoPath>
    */
 
   final TodoAppCubit _appState;
-  final GlobalKey<NavigatorState> _navigationKey;
-  final ResponsiveInfoRepo
-      _responsiveInfoRepo = ResponsiveInfoRepo(); //Would contain info about the current screen type
+  final GlobalKey<NavigatorState>
+      _navigationKey; // The key is needed by the router delegate
+  final ResponsiveInfoRepo _responsiveInfoRepo =
+      ResponsiveInfoRepo(); //Would contain info about the current screen type
 
   TodoAppDelegate(TodoAppCubit appState)
       : _navigationKey = GlobalKey(),
@@ -46,31 +47,50 @@ class TodoAppDelegate extends RouterDelegate<TodoPath>
   Widget build(BuildContext context) {
     _responsiveInfoRepo.init(context);
     return BlocConsumer<TodoAppCubit, TodoAppState>(
+      //This _appState would would in most times only be changed when the details
       bloc: _appState,
       builder: (context, state) {
-
         return Navigator(
           onPopPage: (route, result) {
             if (route.didPop(result)) {
+              //If a pop happens, let the native os handle it
               return true;
             }
 
             return false;
           },
-          pages: [
-            const MaterialPage(child: TodoListHomeScreen()),
-            if (state.selectedTodo == null && _responsiveInfoRepo.isMobile)
-              const MaterialPage(child: TodoDetailsScreen())
-          ],
+
+          //The last page of this list is given preference
+          pages: _responsiveInfoRepo.isMobile
+              ? getMobilePagesConfig(state)
+              : getDesktopPagesConfig(state),
         );
       },
       listener: (context, state) {
         //When the app State changes, call notify listeners so that the Navigator is rebuilt
+        //The material app is a default listener of this router delegate.
+        //So when notify listeners is called,
         notifyListeners();
       },
     );
   }
 
+  List<Page<dynamic>> getMobilePagesConfig(TodoAppState state) {
+    return [
+      const MaterialPage(child: HomeScreenView()),
+      if (state.selectedTodo != null && _responsiveInfoRepo.isMobile)
+        const MaterialPage(child: TodoDetailsScreen())
+    ];
+  }
+
+  List<Page<dynamic>> getDesktopPagesConfig(TodoAppState state) {
+    return [
+      const MaterialPage(child: TodoListHomeScreenDesktop()),
+    ];
+  }
+
   @override
-  Future<void> setNewRoutePath(TodoPath configuration) async {}
+  Future<void> setNewRoutePath(TodoPath configuration) async {
+    //Do nothing.. No path would be shown since this does nothing
+  }
 }
