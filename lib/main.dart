@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_app/responsive_info.dart';
 import 'package:todo_app/routers/cubit/todo_app_cubit.dart';
 import 'package:todo_app/routers/router_delegate.dart';
 import 'package:todo_app/screens/todo_details_screen/bloc/todo_details_bloc.dart';
 import 'package:todo_app/screens/todo_list_home_screen/blocs/todo_bloc.dart';
+import 'package:todo_app/theme.dart';
 import 'package:todo_repository/todo_repository.dart';
 import 'package:todos_database_hive/todos_database_hive.dart';
-import 'package:todo_app/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.initFlutter();
 
   Hive.registerAdapter(TodoAdapter());
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -43,9 +42,11 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _appState),
-        BlocProvider(create: (context) => TodoDetailsBloc()),
+        BlocProvider(create: (context) => TodoDetailsBloc(_appState)),
         BlocProvider(create: (context) => TodoBloc(_todoRepository))
       ],
+
+      //Using Navigation 2.0
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         routerDelegate: _todoAppRouterDelegate,
