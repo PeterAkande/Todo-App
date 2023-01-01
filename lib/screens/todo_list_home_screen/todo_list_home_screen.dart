@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_repository/todo_repository.dart';
 
 import '../../responsive_info.dart';
 import 'blocs/todo_bloc.dart';
@@ -63,6 +64,7 @@ class HomeScreenView extends StatelessWidget {
                   Expanded(
                     child: ListView.separated(
                         itemBuilder: (context, index) {
+                          TodoModel todoModel = state.todos[index];
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Container(
@@ -89,7 +91,7 @@ class HomeScreenView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'This is the title of the todo and many others hahahahahah',
+                                                  todoModel.title,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline3
@@ -105,7 +107,7 @@ class HomeScreenView extends StatelessWidget {
                                                   height: 10,
                                                 ),
                                                 Text(
-                                                  'This is the title of the todo',
+                                                  todoModel.additionalContents,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline4
@@ -141,7 +143,7 @@ class HomeScreenView extends StatelessWidget {
                                                       Colors.transparent,
                                                     ),
                                                     checkColor: Colors.black,
-                                                    value: false,
+                                                    value: todoModel.completed,
                                                     onChanged: (bool? value) {})
                                               ],
                                             ),
@@ -160,7 +162,7 @@ class HomeScreenView extends StatelessWidget {
                             height: 10,
                           );
                         },
-                        itemCount: 30),
+                        itemCount: state.todos.length),
                   )
                 ],
               ),
