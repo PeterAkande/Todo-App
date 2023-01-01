@@ -3,6 +3,8 @@ import 'package:todo_repository/src/models/models.dart';
 typedef ListOfTodos = List<Map<String, dynamic>>;
 
 abstract class DatabaseOperations {
+  init();
+
   Future<Map<String, dynamic>> createTodo(
       {required String title, required String additionalContents});
 

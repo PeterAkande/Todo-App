@@ -1,15 +1,24 @@
 import 'dart:async';
 
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:todo_repository/todo_repository.dart';
-import 'package:todos_database_hive/src/db_config/constants.dart';
+import 'package:todos_database_hive/src/db_config/db_config.dart';
 import 'package:todos_database_hive/src/util_functions.dart';
 
-class HiveDbOperations extends DatabaseOperations {
-  //This class would handle the getting of the data from the hove database
+import 'db_config/todos_db_config.dart';
 
-  late Box<TodoModel> box;
+class HiveDbOperations extends DatabaseOperations {
+  //This class would handle the getting of the data from the hive database
+
+  late Box<Todo> box;
+
+  init() {
+    Hive.initFlutter().then((value) async {
+      Hive.registerAdapter(TodoAdapter());
+      box = await Hive.openBox('todo_box');
+    });
+  }
 
   //A BehaviourSubject stream is used and not just a stream controller is because
   //For a BehaviourSubject, the last stream event is broadcast to any new listener
@@ -17,7 +26,7 @@ class HiveDbOperations extends DatabaseOperations {
 
   DbOperations() {
     Hive.openBox(todoBoxName).then((value) {
-      box = Hive.box<TodoModel>(todoBoxName);
+      box = Hive.box<Todo>(todoBoxName);
     }); //Open the box and assign the box to the box class.
 
     // allTodos = getAllTodos(); //Get all the todos
@@ -48,7 +57,7 @@ class HiveDbOperations extends DatabaseOperations {
 
     Completer<Map<String, dynamic>> createTodoCompleter = Completer();
 
-    box.put(id, todoModel).then((value) {
+    box.put(id, Todo.fromTodoModel(todoModel)).then((value) {
       //Add the newly added _todo to the todos list then broadcast the new list of todos
 
       final newTodos = [...todosStream.value];
@@ -126,7 +135,7 @@ class HiveDbOperations extends DatabaseOperations {
     final int todoIndex =
         allTodos.indexWhere((jsonSchema) => jsonSchema['id'] == id);
 
-    await box.put(id, updatedTodoModel);
+    await box.put(id, Todo.fromTodoModel(updatedTodoModel));
 
     allTodos[todoIndex] = updatedTodoModel.toJson();
     return updatedTodoModel.toJson();
