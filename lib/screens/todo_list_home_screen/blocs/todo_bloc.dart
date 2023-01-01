@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:todo_app/responsive_info.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 part 'todo_event.dart';
@@ -13,9 +12,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       : _todoRepository = todoRepository,
         super(const TodoState()) {
     on<TodoSubscriptionRequested>(_todoSubscriptionRequested);
-    on<TodoDeleted>(_onTodoDeleted);
-    on<TodoUpdated>(_onTodoUpdated);
-    on<TodoAdded>(_onTodoAdded);
+    // on<TodoDeleted>(_onTodoDeleted);
+    // on<TodoUpdated>(_onTodoUpdated);
+    // on<TodoAdded>(_onTodoAdded);
   }
 
   _todoSubscriptionRequested(
@@ -31,16 +30,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
           allTodos: () => todos, currentStatus: () => TodoStatus.success);
     });
   }
-
-  _onTodoDeleted(TodoDeleted event, Emitter<TodoState> emit) async {
-    await _todoRepository.deleteTodo(event.id);
-  }
-
-  _onTodoUpdated(TodoUpdated event, Emitter<TodoState> emit) async {
-    await _todoRepository.updateTodo(event.id, event.updatedTodo);
-  }
-
-  _onTodoAdded(TodoAdded event, Emitter<TodoState> emit) async {
-    await _todoRepository.createTodo(event.title, event.additionalContents);
-  }
+  //
+  // _onTodoDeleted(TodoDeleted event, Emitter<TodoState> emit) async {
+  //   await _todoRepository.deleteTodo(event.id);
+  // }
+  //
+  // _onTodoUpdated(TodoUpdated event, Emitter<TodoState> emit) async {
+  //   await _todoRepository.updateTodo(event.id, event.updatedTodo);
+  // }
+  //
+  // _onTodoAdded(TodoAdded event, Emitter<TodoState> emit) async {
+  //   await _todoRepository.createTodo(event.title, event.additionalContents);
+  // }
 }
