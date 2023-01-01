@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/routers/cubit/todo_app_cubit.dart';
 import 'package:todo_app/routers/router_delegate.dart';
 import 'package:todo_app/screens/todo_details_screen/bloc/todo_details_bloc.dart';
 import 'package:todo_app/screens/todo_list_home_screen/blocs/todo_bloc.dart';
 import 'package:todo_app/theme.dart';
 import 'package:todo_repository/todo_repository.dart';
-import 'package:todos_database_hive/todos_database_hive.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Hive.initFlutter();
-
-  Hive.registerAdapter(TodoAdapter());
   runApp(const MyApp());
 }
 
@@ -26,7 +21,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final TodoAppCubit _appState = TodoAppCubit();
-  final TodoRepository _todoRepository = TodoRepository();
+  final TodoRepository _todoRepository = TodoRepository()..init();
 
   late final TodoAppDelegate _todoAppRouterDelegate =
       TodoAppDelegate(_appState);
@@ -43,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => _appState),
         BlocProvider(
-            create: (context) => TodoDetailsBloc(_appState)
+            create: (context) => TodoDetailsBloc(_appState, _todoRepository)
               ..add(TodoDetailsSubscriptionRequested())),
         BlocProvider(
             create: (context) =>
