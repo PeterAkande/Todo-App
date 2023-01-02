@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_app/routers/cubit/todo_app_cubit.dart';
 
 import '../../../constants.dart';
 
@@ -59,7 +61,9 @@ class LeftPanelView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10))),
                           backgroundColor: const MaterialStatePropertyAll(
                               Color(0xFF363636))),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<TodoAppCubit>().createNewTodo();
+                      },
                       child: const Icon(Icons.add),
                     ),
                   ),
