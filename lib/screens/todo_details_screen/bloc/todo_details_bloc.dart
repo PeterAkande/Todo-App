@@ -16,7 +16,6 @@ class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
   TodoDetailsBloc(this._appState, this._todoRepository)
       : super(TodoDetailsState()) {
     on<TodoDetailsSubscriptionRequested>(_onTodoDetailsSubscriptionRequested);
-    on<TodoDetailsEvent>((event, emit) {});
     on<EditTodoDetailsRequested>(_onEditTodoDetailsRequested);
     on<AddNewTodoDetailsRequested>(_onAddNewTodoDetailsRequested);
     on<SaveTodoDetailRequested>(_onSaveTodoDetailRequested);
@@ -26,29 +25,28 @@ class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
   Future<void> _onTodoDetailsSubscriptionRequested(
       TodoDetailsSubscriptionRequested event, Emitter emit) async {
     await emit.forEach(_appState.stream, onData: (TodoAppState appState) {
-      if (appState.addOrEditingATodo) {
-        //A _todo is to be created or is being edited
-        if (appState.selectedTodo != null) {
-          //The selected _todo is not null. Therefore add a previous _todo is being edited
-
-          return state.copyWith(
-              newTodoCallback: () => appState.selectedTodo!,
-              addOrEditTodoCallback: () => false);
-        } else {
-          //A new _todo is to be created;
-          return state.copyWith(
-              newTodoCallback: () => null, addOrEditTodoCallback: () => true);
-        }
-      } else {
+      if (!appState.addOrEditingATodo && appState.selectedTodo == null) {
         return state.copyWith(
             newTodoCallback: () => null, addOrEditTodoCallback: () => false);
+      }
+      if (appState.selectedTodo != null) {
+        //The selected _todo is not null. Therefore a previous _todo is being edited
+
+        return state.copyWith(
+            newTodoCallback: () => appState.selectedTodo!,
+            addOrEditTodoCallback: () => false);
+      } else {
+        //A new _todo is to be created;
+        return state.copyWith(
+            newTodoCallback: () => null, addOrEditTodoCallback: () => true);
       }
     });
   }
 
   Future<void> _onEditTodoDetailsRequested(
       EditTodoDetailsRequested event, Emitter<TodoDetailsState> emit) async {
-    emit(state.copyWith(newTodoCallback: () => event.todo));
+    emit(state.copyWith(
+        newTodoCallback: () => event.todo, addOrEditTodoCallback: () => true));
   }
 
   Future<void> _onAddNewTodoDetailsRequested(
@@ -73,7 +71,9 @@ class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
       TodoModel? updatedTodo = await _todoRepository.updateTodo(
           event.todoModel!.id, event.todoModel!);
 
-      if (updatedTodo == null) return;
+      if (updatedTodo == null) {
+        return;
+      }
 
       emit(state.copyWith(
           newTodoCallback: () => updatedTodo,
@@ -89,5 +89,8 @@ class TodoDetailsBloc extends Bloc<TodoDetailsEvent, TodoDetailsState> {
   }
 
   FutureOr<void> _onViewTodoDetailsRequested(
-      ViewTodoDetailsRequested event, Emitter<TodoDetailsState> emit) {}
+      ViewTodoDetailsRequested event, Emitter<TodoDetailsState> emit) {
+    emit(state.copyWith(
+        newTodoCallback: () => event.todo, addOrEditTodoCallback: () => false));
+  }
 }

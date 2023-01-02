@@ -18,5 +18,5 @@ class TodoDetailsState extends Equatable {
   }
 
   @override
-  List<Object> get props => [];
+  List get props => [todo, addingOrEditingTodo];
 }
