@@ -41,7 +41,11 @@ class TodoTile extends StatelessWidget {
                                 .textTheme
                                 .headline3
                                 ?.copyWith(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: todoModel.completed
+                                        ? TextDecoration.lineThrough
+                                        : null),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -64,11 +68,11 @@ class TodoTile extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          IconButton(
-                            iconSize: 25,
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit_outlined),
-                          ),
+                          // IconButton(
+                          //   iconSize: 25,
+                          //   onPressed: () {},
+                          //   icon: const Icon(Icons.edit_outlined),
+                          // ),
                           Checkbox(
                               side: const BorderSide(color: Colors.black),
                               shape: RoundedRectangleBorder(
