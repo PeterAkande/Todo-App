@@ -130,7 +130,7 @@ class TodoTheme {
           backgroundColor: Colors.black,
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          foregroundColor: Colors.white,
+          foregroundColor: appPrimaryColorDark,
           backgroundColor: appPrimaryColorLight,
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
