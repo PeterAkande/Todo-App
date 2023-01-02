@@ -9,7 +9,7 @@ class TodoAppState extends Equatable {
   TodoModel? selectedTodo;
   bool addOrEditingATodo;
 
-  TodoAppState({TodoModel? selectedTodo, this.addOrEditingATodo = false});
+  TodoAppState({this.selectedTodo, this.addOrEditingATodo = false});
 
   @override
   List<Object?> get props => [selectedTodo, addOrEditingATodo];
