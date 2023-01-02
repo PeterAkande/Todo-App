@@ -13,25 +13,17 @@ class HiveDbOperations extends DatabaseOperations {
 
   late Box<Todo> box;
 
-  init() {
-    Hive.initFlutter().then((value) async {
-      Hive.registerAdapter(TodoAdapter());
-      box = await Hive.openBox('todo_box');
+  init() async {
+    Hive.registerAdapter(TodoAdapter());
+    await Hive.initFlutter().then((value) async {
+      box = await Hive.openBox(todoBoxName);
+      todosStream.add(_getAllTodos()); //Add the todos to the stream
     });
   }
 
   //A BehaviourSubject stream is used and not just a stream controller is because
   //For a BehaviourSubject, the last stream event is broadcast to any new listener
   final BehaviorSubject<ListOfTodos> todosStream = BehaviorSubject.seeded([]);
-
-  DbOperations() {
-    Hive.openBox(todoBoxName).then((value) {
-      box = Hive.box<Todo>(todoBoxName);
-    }); //Open the box and assign the box to the box class.
-
-    // allTodos = getAllTodos(); //Get all the todos
-    todosStream.add(_getAllTodos()); //Add the todos to the stream
-  }
 
   Stream<ListOfTodos> getTodos() => todosStream.asBroadcastStream();
 
@@ -57,7 +49,7 @@ class HiveDbOperations extends DatabaseOperations {
 
     Completer<Map<String, dynamic>> createTodoCompleter = Completer();
 
-    box.put(id, Todo.fromTodoModel(todoModel)).then((value) {
+    await box.put(id, Todo.fromTodoModel(todoModel)).then((value) {
       //Add the newly added _todo to the todos list then broadcast the new list of todos
 
       final newTodos = [...todosStream.value];
@@ -67,7 +59,7 @@ class HiveDbOperations extends DatabaseOperations {
       //This is a closure, so using a completer is the best approach.
       //Dependable :)
       createTodoCompleter.complete(todoModel.toJson());
-    });
+    }, onError: (error) {});
 
     return createTodoCompleter.future;
   }
@@ -135,9 +127,12 @@ class HiveDbOperations extends DatabaseOperations {
     final int todoIndex =
         allTodos.indexWhere((jsonSchema) => jsonSchema['id'] == id);
 
-    await box.put(id, Todo.fromTodoModel(updatedTodoModel));
+    await box
+        .put(id, Todo.fromTodoModel(updatedTodoModel))
+        .then((value) {}, onError: (error) {});
 
     allTodos[todoIndex] = updatedTodoModel.toJson();
+    todosStream.add(allTodos);
     return updatedTodoModel.toJson();
   }
 
@@ -149,7 +144,7 @@ class HiveDbOperations extends DatabaseOperations {
     //Get all the todos.
     final allTodos = [...todosStream.value];
 
-    box.delete(id).then((value) {
+    await box.delete(id).then((value) {
       //Update the todos and pass it to the stream
       allTodos.removeWhere((todoJsonSchema) => todoJsonSchema['id'] == id);
       todosStream.add(allTodos);
@@ -167,7 +162,7 @@ class HiveDbOperations extends DatabaseOperations {
     //Would return true if the process was successful otherwise, false
     Completer<bool> deletedCompleter = Completer();
 
-    box.clear().then((value) {
+    await box.clear().then((value) {
       //Pass the updated list of todos
       todosStream.add([]);
 
