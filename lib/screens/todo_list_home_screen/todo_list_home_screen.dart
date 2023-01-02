@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_app/screens/todo_list_home_screen/components/todo_tile.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 import '../../responsive_info.dart';
@@ -69,111 +70,7 @@ class HomeScreenView extends StatelessWidget {
                         : ListView.separated(
                             itemBuilder: (context, index) {
                               TodoModel todoModel = state.todos[index];
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Container(
-                                  color:
-                                      const Color(0xFFD2D2D2).withOpacity(0.3),
-                                  height: 90,
-                                  child: Material(
-                                    elevation: 0,
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () {
-                                        context
-                                            .read<TodoAppCubit>()
-                                            .selectTodo(todoModel);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 7),
-                                        child: LayoutBuilder(
-                                            builder: (context, constraints) {
-                                          return Row(
-                                            children: [
-                                              SizedBox(
-                                                width:
-                                                    constraints.maxWidth * 0.75,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      todoModel.title,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline3
-                                                          ?.copyWith(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Text(
-                                                      todoModel
-                                                          .additionalContents,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4
-                                                          ?.copyWith(
-                                                            fontSize: 15,
-                                                          ),
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    IconButton(
-                                                      iconSize: 25,
-                                                      onPressed: () {},
-                                                      icon: const Icon(
-                                                          Icons.edit_outlined),
-                                                    ),
-                                                    Checkbox(
-                                                        side: const BorderSide(
-                                                            color:
-                                                                Colors.black),
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        2)),
-                                                        fillColor:
-                                                            const MaterialStatePropertyAll(
-                                                          Colors.transparent,
-                                                        ),
-                                                        checkColor:
-                                                            Colors.black,
-                                                        value:
-                                                            todoModel.completed,
-                                                        onChanged:
-                                                            (bool? value) {})
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          );
-                                        }),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return TodoTile(todoModel: todoModel);
                             },
                             separatorBuilder: (context, index) {
                               return const SizedBox(
