@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (context) => _appState),
         BlocProvider(
+            lazy: false,
             create: (context) => TodoDetailsBloc(_appState, _todoRepository)
               ..add(TodoDetailsSubscriptionRequested())),
         BlocProvider(
