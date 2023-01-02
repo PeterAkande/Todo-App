@@ -16,16 +16,17 @@ class TodoSubscriptionRequested extends TodoEvent {}
 //   final String additionalContents;
 // }
 //
-// class TodoUpdated extends TodoEvent {
-//   const TodoUpdated({required this.id, required this.updatedTodo}) : super();
+class TodoUpdated extends TodoEvent {
+  const TodoUpdated({required this.id, required this.updatedTodo}) : super();
+
+  final String id;
+  final TodoModel updatedTodo;
+}
+
 //
-//   final String id;
-//   final TodoModel updatedTodo;
-// }
-//
-// class TodoDeleted extends TodoEvent {
-//   const TodoDeleted(this.id) : super();
-//
-//   // final String title;
-//   final String id;
-// }
+class TodoDeleted extends TodoEvent {
+  const TodoDeleted(this.id) : super();
+
+  // final String title;
+  final String id;
+}
