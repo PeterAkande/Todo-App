@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/screens/todo_list_home_screen/blocs/todo_bloc.dart';
 import 'package:todo_repository/todo_repository.dart';
 
 import '../../../routers/cubit/todo_app_cubit.dart';
@@ -77,7 +78,13 @@ class TodoTile extends StatelessWidget {
                               ),
                               checkColor: Colors.black,
                               value: todoModel.completed,
-                              onChanged: (bool? value) {})
+                              onChanged: (bool? value) {
+                                if (value == null) return;
+
+                                todoModel.completed = value;
+                                context.read<TodoBloc>().add(TodoUpdated(
+                                    id: todoModel.id, updatedTodo: todoModel));
+                              })
                         ],
                       ),
                     )
