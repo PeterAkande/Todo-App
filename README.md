@@ -3,8 +3,6 @@
 This would be a simple todo app
 Use Hive as DB and Bloc as for State Management and Navigator 2.0 
 
-The flow would be as:
-When a new todo is created, a loading screen appears. After some seconds, the todo is added. 
-Same timeout happens for deleting a todo or completing a todo.
+The goal is to demostrate a clean architecture with Bloc and the Navigation 2.0 API
 
-Do not use the ValueListenable builder from the Hive package. Use bloc for everything.
+[Open deployed website](https://peterakande.github.io/flutter_todo_app/)
