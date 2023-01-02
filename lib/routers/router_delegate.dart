@@ -79,8 +79,8 @@ class TodoAppDelegate extends RouterDelegate<TodoPath>
   List<Page<dynamic>> getMobilePagesConfig(TodoAppState state) {
     return [
       MaterialPage(child: HomeScreenView()),
-      if (state.selectedTodo != null && _responsiveInfoRepo.isMobile)
-        MaterialPage(child: TodoDetailsScreen())
+      if (state.selectedTodo != null || state.addOrEditingATodo)
+        const MaterialPage(child: TodoDetailsScreen())
     ];
   }
 
