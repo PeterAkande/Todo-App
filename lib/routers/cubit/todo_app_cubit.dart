@@ -6,4 +6,16 @@ part 'todo_app_state.dart';
 
 class TodoAppCubit extends Cubit<TodoAppState> {
   TodoAppCubit() : super(TodoAppState());
+
+  void selectTodo(TodoModel todoModel) {
+    emit(TodoAppState(selectedTodo: todoModel));
+  }
+
+  void createNewTodo() {
+    emit(TodoAppState(addOrEditingATodo: true));
+  }
+
+  void unSelectTodo() {
+    emit(TodoAppState());
+  }
 }
