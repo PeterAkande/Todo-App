@@ -55,6 +55,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   hive_generator: ^1.1.1
   build_runner: ^2.1.7
+  msix: ^3.7.0
 
 flutter:
 
@@ -66,4 +67,15 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/icons/
+
+
+msix_config:
+  display_name: My Todo
+  publisher_display_name: Peter Akande
+  identity_name: company.pillad.mytodo
+  msix_version: 1.0.0.0
+  logo_path: C:\Users\LENOVO\Flutter Projects\todo_app\assets\icons\app_icon.png
+  capabilities: internetClient, location, microphone, webcam
+  languages: en-us
+  store: true
 
