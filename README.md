@@ -1,7 +1,8 @@
 # Todo App
 
 This would be a simple todo app
-Use Hive as DB and Bloc as for State Management and Navigator 2.0 
+
+Use Hive as DB and Bloc for State Management and Navigator 2.0 
 
 The goal is to demostrate a clean architecture with Bloc and the Navigation 2.0 API
 
